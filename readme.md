@@ -1,3 +1,5 @@
 compile:
 
-g++ main.cpp -o main -lsfml-graphics -lsfml-window -lsfml-system
+make all
+
+TODO: figure out colliders!
