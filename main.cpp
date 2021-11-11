@@ -41,9 +41,10 @@ void initPlayer(Player &player){
 
 void drawGroundBox(float width, float height, sf::Vector2f origin, sf::RenderWindow &window);
 
-void drawPlayer(sf::Vector2f position, sf::RenderWindow &window);
-void drawEnemyRectangle(sf::RenderWindow &window);
-
+void drawPlayer(sf::RectangleShape playerRect, sf::RenderWindow &window);
+sf::RectangleShape initPlayerRect(sf::Vector2f position);
+void drawEnemyRectangle(sf::RectangleShape enemyRect, sf::RenderWindow &window);
+sf::RectangleShape initEnemyRect(sf::Vector2f position);
 void update(float delta, sf::RenderWindow &window, Player &player);
 
 void movePlayer(Player &player, float delta);
@@ -86,17 +87,22 @@ void update(float delta, sf::RenderWindow &window, Player &player)
     //drawGroundBox(SCREEN_SIZE.x/4, 200.f, sf::Vector2f(500.f, 800.f), window);
     //drawGroundBox(SCREEN_SIZE.x/4, 200.f, sf::Vector2f(1000.f, 800.f), window);
     inputController(player, delta);
-    drawEnemyRectangle(window);
-    drawPlayer(player.position, window);
+    drawEnemyRectangle(initEnemyRect(sf::Vector2f(1200.f, 800.f)), window);
+    drawPlayer(initPlayerRect(player.position), window);
     window.display();
 }
 
-void drawEnemyRectangle(sf::RenderWindow &window)
+void drawEnemyRectangle(sf::RectangleShape enemyRect, sf::RenderWindow &window)
 {
-    sf::RectangleShape enemy(sf::Vector2f(50.f, 50.f));
-    enemy.setPosition(sf::Vector2f(1200.f, 800.f - 50.f));
-    enemy.setFillColor(sf::Color::Blue);
-    window.draw(enemy);
+    window.draw(enemyRect);
+}
+
+sf::RectangleShape initEnemyRect(sf::Vector2f position)
+{
+    sf::RectangleShape enemyRect(sf::Vector2f(50.f, 50.f));
+    enemyRect.setPosition(sf::Vector2f(position.x, position.y - 50.f));
+    enemyRect.setFillColor(sf::Color::Blue);
+    return enemyRect;
 }
 
 void drawGroundBox(float width, float height, sf::Vector2f origin, sf::RenderWindow &window)
@@ -118,12 +124,17 @@ void drawGroundBox(float width, float height, sf::Vector2f origin, sf::RenderWin
 
 }
 
-void drawPlayer(sf::Vector2f position, sf::RenderWindow &window)
+void drawPlayer(sf::RectangleShape playerRect, sf::RenderWindow &window)
+{
+    window.draw(playerRect);
+}
+
+sf::RectangleShape initPlayerRect(sf::Vector2f position)
 {
     sf::RectangleShape playerRect(sf::Vector2f(25.f, 25.f));
     playerRect.setPosition(position.x, position.y);
     playerRect.setFillColor(sf::Color::Red);
-    window.draw(playerRect);
+    return playerRect;
 }
 
 
