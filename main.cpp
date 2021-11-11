@@ -50,6 +50,8 @@ void update(float delta, sf::RenderWindow &window, Player &player);
 void movePlayer(Player &player, float delta);
 void inputController(Player& player, float delta);
 
+void stopPlayerMovement(Player &player);
+
 
 int main()
 {
@@ -87,8 +89,17 @@ void update(float delta, sf::RenderWindow &window, Player &player)
     //drawGroundBox(SCREEN_SIZE.x/4, 200.f, sf::Vector2f(500.f, 800.f), window);
     //drawGroundBox(SCREEN_SIZE.x/4, 200.f, sf::Vector2f(1000.f, 800.f), window);
     inputController(player, delta);
+    //check collisions!
+    sf::RectangleShape currentPlayer = initPlayerRect((player.position));
+    sf::RectangleShape currentEnemy = initEnemyRect((sf::Vector2f(1200.f, 800.f)));
+    if(currentPlayer.getGlobalBounds().intersects(currentEnemy.getGlobalBounds()))
+    {
+        stopPlayerMovement(player);
+    } 
+
     drawEnemyRectangle(initEnemyRect(sf::Vector2f(1200.f, 800.f)), window);
     drawPlayer(initPlayerRect(player.position), window);
+
     window.display();
 }
 
@@ -171,4 +182,9 @@ void inputController(Player& player, float delta)
         player.velocity += GRAVITY;
 
 
+}
+
+void stopPlayerMovement(Player &player)
+{
+    player.velocity = sf::Vector2f(0.f, 0.f);
 }
