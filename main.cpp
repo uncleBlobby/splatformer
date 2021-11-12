@@ -9,6 +9,17 @@
 
 Splatformer::Player player;
 Splatformer::Platform platform;
+
+struct rectangleCollider {
+    sf::RectangleShape shape;
+    sf::Vector2f position;
+    sf::Vector2f size;
+};
+
+std::vector<sf::RectangleShape> _rectangleShapes = {};
+
+std::vector<rectangleCollider> _rectangleColliders = {};
+
 const sf::Vector2 GRAVITY = sf::Vector2f(0.f, 50.f);
 
 // TODO: convert ground objects to class type
@@ -21,10 +32,12 @@ sf::RectangleShape initEnemyRect(sf::Vector2f position);
 // declare update function
 void update(float delta, sf::RenderWindow &window, Splatformer::Player &player);
 
+void checkAllRectColliders(Splatformer::Player &player, std::vector<sf::RectangleShape> _rectangleShapes);
+
 int main()
 {
     player.init();
-    platform.init(sf::Vector2f(500.f, 25.f), sf::Vector2f(1000.f, 500.f));
+    platform.init(sf::Vector2f(500.f, 25.f), sf::Vector2f(1000.f, 625.f));
     // create the window
     sf::RenderWindow window(sf::VideoMode(Splatformer::SCREEN_SIZE.x, Splatformer::SCREEN_SIZE.y), "SplatFormer");
     window.setFramerateLimit(60);
@@ -61,6 +74,10 @@ void update(float delta, sf::RenderWindow &window, Splatformer::Player &player)
     player.draw(window);
     platform.draw(window);
     sf::RectangleShape currentEnemy = initEnemyRect((sf::Vector2f(1200.f, 800.f)));
+    //_rectangleShapes.push_back(player.getShape());
+    _rectangleShapes.push_back(currentEnemy);
+    _rectangleShapes.push_back(platform.getShape());
+    checkAllRectColliders(player, _rectangleShapes);
     if(player.getShape().getGlobalBounds().intersects(currentEnemy.getGlobalBounds()))
     {
         player.stopMovement(player.velocity);
@@ -97,4 +114,20 @@ void drawGroundBox(float width, float height, sf::Vector2f origin, sf::RenderWin
     };
 
     window.draw(collider, 2, sf::Lines);
+}
+
+void checkAllRectColliders(Splatformer::Player &player, std::vector<sf::RectangleShape> _rectangleShapes)
+{
+    for(int i = 0; i < _rectangleShapes.size(); i++)
+    {
+        if(player.getShape().getGlobalBounds().intersects(_rectangleShapes[i].getGlobalBounds()))
+        {
+            std::cout << "Collision" << std::endl;
+            player.stopMovement(player.velocity);
+        }
+        else
+        {
+            std::cout << "Not colliding.." << std::endl;
+        }
+    }
 }
