@@ -7,17 +7,17 @@
 #include "player.h"
 
 Splatformer::Player player;
-
 const sf::Vector2 GRAVITY = sf::Vector2f(0.f, 50.f);
 
+// TODO: convert ground objects to class type
 void drawGroundBox(float width, float height, sf::Vector2f origin, sf::RenderWindow &window);
 
+// TODO: convert enemy to class type
 void drawEnemyRectangle(sf::RectangleShape enemyRect, sf::RenderWindow &window);
 sf::RectangleShape initEnemyRect(sf::Vector2f position);
+
+// declare update function
 void update(float delta, sf::RenderWindow &window, Splatformer::Player &player);
-
-void stopPlayerMovement(Splatformer::Player &player);
-
 
 int main()
 {
@@ -26,6 +26,7 @@ int main()
     sf::RenderWindow window(sf::VideoMode(Splatformer::SCREEN_SIZE.x, Splatformer::SCREEN_SIZE.y), "SplatFormer");
     window.setFramerateLimit(60);
 
+    // init clock for frame timer
     sf::Clock clock;
 
     while (window.isOpen())
@@ -39,29 +40,20 @@ int main()
             }
         }
     
-    sf::Time elapsed = clock.restart();
-    float delta = elapsed.asSeconds();
-    update(delta, window, player);
-
+        // reset clock every frame
+        sf::Time elapsed = clock.restart();
+        float delta = elapsed.asSeconds();
+        update(delta, window, player);
     }
     return 0;
 }
 
+// define update function
 void update(float delta, sf::RenderWindow &window, Splatformer::Player &player)
 {
     window.clear(sf::Color::Black);
     drawGroundBox(Splatformer::SCREEN_SIZE.x, 200.f, sf::Vector2f(0.f, 800.f), window);
-
-    //check collisions!
-    /*
-    sf::RectangleShape currentEnemy = initEnemyRect((sf::Vector2f(1200.f, 800.f)));
-    if(currentPlayer.getGlobalBounds().intersects(currentEnemy.getGlobalBounds()))
-    {
-        stopPlayerMovement(player);
-    }
-    */
     player.inputController(delta);
-    //inputController(player, delta);
     drawEnemyRectangle(initEnemyRect(sf::Vector2f(1200.f, 800.f)), window);
     player.draw(window);
     sf::RectangleShape currentEnemy = initEnemyRect((sf::Vector2f(1200.f, 800.f)));
@@ -101,11 +93,4 @@ void drawGroundBox(float width, float height, sf::Vector2f origin, sf::RenderWin
     };
 
     window.draw(collider, 2, sf::Lines);
-
-}
-
-
-void stopPlayerMovement(Splatformer::Player &player)
-{
-    player.velocity = sf::Vector2f(0.f, 0.f);
 }
