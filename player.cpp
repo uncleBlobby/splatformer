@@ -76,7 +76,7 @@ void Player::inputController(float delta)
     }
     if (this->isGrounded && sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
     {
-        this->setVelocity(sf::Vector2f(0.f, -1000.f));
+        this->setVelocity(sf::Vector2f(0.f, -2000.f));
         this->isGrounded = false;
     }
 

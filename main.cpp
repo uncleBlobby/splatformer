@@ -5,8 +5,10 @@
 #include <iostream>
 #include "game.h"
 #include "player.h"
+#include "platform.h"
 
 Splatformer::Player player;
+Splatformer::Platform platform;
 const sf::Vector2 GRAVITY = sf::Vector2f(0.f, 50.f);
 
 // TODO: convert ground objects to class type
@@ -22,6 +24,7 @@ void update(float delta, sf::RenderWindow &window, Splatformer::Player &player);
 int main()
 {
     player.init();
+    platform.init(sf::Vector2f(500.f, 25.f), sf::Vector2f(1000.f, 500.f));
     // create the window
     sf::RenderWindow window(sf::VideoMode(Splatformer::SCREEN_SIZE.x, Splatformer::SCREEN_SIZE.y), "SplatFormer");
     window.setFramerateLimit(60);
@@ -56,6 +59,7 @@ void update(float delta, sf::RenderWindow &window, Splatformer::Player &player)
     player.inputController(delta);
     drawEnemyRectangle(initEnemyRect(sf::Vector2f(1200.f, 800.f)), window);
     player.draw(window);
+    platform.draw(window);
     sf::RectangleShape currentEnemy = initEnemyRect((sf::Vector2f(1200.f, 800.f)));
     if(player.getShape().getGlobalBounds().intersects(currentEnemy.getGlobalBounds()))
     {
