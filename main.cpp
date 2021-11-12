@@ -78,10 +78,6 @@ void update(float delta, sf::RenderWindow &window, Splatformer::Player &player)
     _rectangleShapes.push_back(currentEnemy);
     _rectangleShapes.push_back(platform.getShape());
     checkAllRectColliders(player, _rectangleShapes);
-    if(player.getShape().getGlobalBounds().intersects(currentEnemy.getGlobalBounds()))
-    {
-        player.stopMovement(player.velocity);
-    }
     window.display();
 }
 
@@ -122,12 +118,12 @@ void checkAllRectColliders(Splatformer::Player &player, std::vector<sf::Rectangl
     {
         if(player.getShape().getGlobalBounds().intersects(_rectangleShapes[i].getGlobalBounds()))
         {
-            std::cout << "Collision" << std::endl;
+            //std::cout << "Collision" << std::endl;
             player.stopMovement(player.velocity);
         }
         else
         {
-            std::cout << "Not colliding.." << std::endl;
+            //std::cout << "Not colliding.." << std::endl;
         }
     }
 }
