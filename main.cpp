@@ -10,15 +10,11 @@ Splatformer::Player player;
 
 const sf::Vector2 GRAVITY = sf::Vector2f(0.f, 50.f);
 
-
 void drawGroundBox(float width, float height, sf::Vector2f origin, sf::RenderWindow &window);
 
 void drawEnemyRectangle(sf::RectangleShape enemyRect, sf::RenderWindow &window);
 sf::RectangleShape initEnemyRect(sf::Vector2f position);
 void update(float delta, sf::RenderWindow &window, Splatformer::Player &player);
-
-void movePlayer(Splatformer::Player &player, float delta);
-void inputController(Splatformer::Player &player, float delta);
 
 void stopPlayerMovement(Splatformer::Player &player);
 
@@ -58,18 +54,21 @@ void update(float delta, sf::RenderWindow &window, Splatformer::Player &player)
 
     //check collisions!
     /*
-    sf::RectangleShape currentPlayer = player.getShape();
     sf::RectangleShape currentEnemy = initEnemyRect((sf::Vector2f(1200.f, 800.f)));
     if(currentPlayer.getGlobalBounds().intersects(currentEnemy.getGlobalBounds()))
     {
         stopPlayerMovement(player);
     }
-    */ 
+    */
     player.inputController(delta);
     //inputController(player, delta);
     drawEnemyRectangle(initEnemyRect(sf::Vector2f(1200.f, 800.f)), window);
     player.draw(window);
-
+    sf::RectangleShape currentEnemy = initEnemyRect((sf::Vector2f(1200.f, 800.f)));
+    if(player.getShape().getGlobalBounds().intersects(currentEnemy.getGlobalBounds()))
+    {
+        player.stopMovement(player.velocity);
+    }
     window.display();
 }
 
@@ -105,45 +104,7 @@ void drawGroundBox(float width, float height, sf::Vector2f origin, sf::RenderWin
 
 }
 
-/*
-void inputController(Splatformer::Player &player, float delta)
-{
-    if (player.position.y + player.size.y >= 800.f)
-    {
-        player.setPosition(sf::Vector2f(player.position.x, 800.f - player.size.y));
-        player.isGrounded = true;
-    }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-    {
-        player.setVelocity(sf::Vector2f(50.f, 0.f));
-    }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-    {
-        player.setVelocity(sf::Vector2f(-50.f, 0.f));
-    }
-    if (player.isGrounded && sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
-    {
-        player.setVelocity(sf::Vector2f(0.f, -1000.f));
-        player.isGrounded = false;
 
-    }
-
-    player.affectFriction(player.velocity);
-
-    player.setPosition(player.velocity, delta);
-
-
-    if(player.isGrounded == false)
-    {
-
-        player.affectGravity(player.velocity);
-        std::cout << "player position y: " << player.position.y << std::endl;
-    }
-        
-
-
-}
-*/
 void stopPlayerMovement(Splatformer::Player &player)
 {
     player.velocity = sf::Vector2f(0.f, 0.f);

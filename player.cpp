@@ -21,6 +21,8 @@ void Player::init()
 sf::RectangleShape Player::getShape()
 {
     sf::RectangleShape shape(sf::Vector2f(25.f, 25.f));
+    shape.setPosition(this->position.x, this->position.y);
+    shape.setFillColor(this->color);
     return shape;
 }
 
@@ -76,21 +78,19 @@ void Player::inputController(float delta)
     {
         this->setVelocity(sf::Vector2f(0.f, -1000.f));
         this->isGrounded = false;
-
     }
 
     this->affectFriction(this->velocity);
 
     this->setPosition(this->velocity, delta);
 
-
     if(this->isGrounded == false)
     {
-
         this->affectGravity(this->velocity);
-        std::cout << "player position y: " << this->position.y << std::endl;
-    }
-        
+    }     
+}
 
-
+void Player::stopMovement(sf::Vector2f &velocity)
+{
+    this->velocity = sf::Vector2f(0.f, 0.f);
 }
