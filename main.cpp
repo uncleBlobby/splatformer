@@ -119,7 +119,7 @@ void checkAllRectColliders(Splatformer::Player &player, std::vector<sf::Rectangl
         if(player.getShape().getGlobalBounds().intersects(_rectangleShapes[i].getGlobalBounds()))
         {
             //std::cout << "Collision" << std::endl;
-            player.stopMovement(player.velocity);
+            //player.stopMovement(player.velocity);
             player.setGrounded(player.velocity);
         }
         else
