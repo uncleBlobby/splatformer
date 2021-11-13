@@ -21,5 +21,6 @@ namespace Splatformer
             void setVelocity(sf::Vector2f changeVelocity);
             void inputController(float delta);
             void stopMovement(sf::Vector2f &velocity);
+            void setGrounded(sf::Vector2f &velocity);
     };
 };

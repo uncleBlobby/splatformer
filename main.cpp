@@ -120,6 +120,7 @@ void checkAllRectColliders(Splatformer::Player &player, std::vector<sf::Rectangl
         {
             //std::cout << "Collision" << std::endl;
             player.stopMovement(player.velocity);
+            player.setGrounded(player.velocity);
         }
         else
         {

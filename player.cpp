@@ -94,3 +94,12 @@ void Player::stopMovement(sf::Vector2f &velocity)
 {
     this->velocity = sf::Vector2f(0.f, 0.f);
 }
+
+void Player::setGrounded(sf::Vector2f &velocity)
+{
+    if((this->velocity.y < 0.1f) || (this->velocity.y > -0.1f))
+    {
+        this->isGrounded = true;
+        this->velocity.y = 0.f;
+    }
+}
